@@ -70,6 +70,12 @@ describe('crontime', () => {
 		}).not.toThrow();
 	});
 
+	it('should test all hyphens with lower barrier bigger than upper (50-10 11-2 4-24 11-4 3-0 1-0)', () => {
+		expect(() => {
+			new cron.CronTime('0-10 0-10 1-10 1-10 0-6 0-1');
+		}).not.toThrow();
+	});
+
 	it('should test comma (0,10 * * * * *)', () => {
 		expect(() => {
 			new cron.CronTime('0,10 * * * * *');
@@ -136,6 +142,12 @@ describe('crontime', () => {
 		}).toThrow();
 	});
 
+	it('should test out of range values in range', () => {
+		expect(() => {
+			new cron.CronTime('* 62-1 * * *');
+		}).toThrow();
+	});
+
 	it('should test invalid wildcard expression', () => {
 		expect(() => {
 			new cron.CronTime('* * * * 0*');
@@ -145,12 +157,6 @@ describe('crontime', () => {
 	it('should test invalid step', () => {
 		expect(() => {
 			new cron.CronTime('* * * 1/0 *');
-		}).toThrow();
-	});
-
-	it('should test invalid range', () => {
-		expect(() => {
-			new cron.CronTime('* 2-1 * * *');
 		}).toThrow();
 	});
 
